@@ -1,0 +1,8 @@
+git config --global user.name "YOUR NAME"    		// sets your username
+git config --global user.email "YOUR EMAIL ADDRESS" 	// sets your mail address
+cd 							// changes directory ej. " cd Documents/GitHub/gdsa/"
+git init 						// initialize your Git repository, you have to do it before adding some files
+git add "File" 						// adds the file you want to the github
+git commit -m 'Description'				// between the ' ' you can enter a notification what you did in the file
+git push						// adds it finally to the github 
+git checkout 'master'					// changes branches in this case to 'master'
