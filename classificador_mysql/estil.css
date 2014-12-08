@@ -1,0 +1,35 @@
+@charset "utf-8";
+/* CSS Document */
+
+#menu{
+	width:100%;
+	height:30px;
+	clear:left;
+	text-align:center;
+	font-family:Arial;
+}
+#set1{
+	width:49%;
+	height:auto;
+	float:left;
+}
+#set2{
+	width:49%;
+	height:auto;
+	float:right;
+}
+
+.caixa{
+	overflow:auto;
+	width:210px; float:left; border:1px solid #000000; margin:5px; padding:5px;
+}
+.seccions{
+	width:100%;
+	clear:left;
+	text-align:center;
+	font-family:Arial;
+}
+
+body{
+	font-family:Arial;
+}
