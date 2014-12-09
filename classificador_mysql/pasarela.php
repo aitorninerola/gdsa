@@ -1,4 +1,4 @@
-<?php if(!isset($_POST["executa"])) header("Location: sed.php"); ?>
+<?php if(!isset($_POST["executa"])) header("Location: index.php"); ?>
 <?php
 session_start();
 $_SESSION['dir']=$_REQUEST['train'];
