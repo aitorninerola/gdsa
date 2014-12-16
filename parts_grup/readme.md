@@ -1,0 +1,1 @@
+Diferents parts del grup
