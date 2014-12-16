@@ -36,8 +36,8 @@ if(isset($_POST["executa"])){
 require('connexio.php');
 global $tags, $score;
 $categories = array(0=>"concert",1=>"conference",2=>"exhibition",3=>"fashion",4=>"other",5=>"protest",6=>"sports",7=>"theater_dance",8=>"non_event");
-$dirn = ($_SESSION["dir"] != 1) ? "/img/train-1/" : "/img/train-2/";
-$knn = (isset($_POST["knn"])) ? $_POST["knn"] : 1;
+$dirn = ($_SESSION["dir"] != 1) ? "2" : "1";
+$knn = (isset($_POST["knn"])) ? intval($_POST["knn"]) : 1;
 
 function tags($id, $mysqli){
 	$sql = "SELECT tag FROM gdsa_tags WHERE document_id =\"".$id."\";";
@@ -49,40 +49,68 @@ function tags($id, $mysqli){
 		}
 }
 
+function clean($mystr){
+	$mystr = preg_replace('/\(/u', '', $mystr);
+	$mystr = preg_replace('/\)/u', '', $mystr);
+	$mystr = preg_replace('/@/u', '', $mystr);
+	$mystr = preg_replace('/~/u', '', $mystr);
+	$mystr = preg_replace('/</u', '', $mystr);
+	$mystr = preg_replace('/>/u', '', $mystr);
+	return $mystr;
+}
+
 $tic = time();
-$dir = getcwd().$dirn; // img/train-2 prova
+/*$dir = getcwd().$dirn; // img/train-2 prova
 $img = scandir($dir);
 $llista= "";
 	foreach($img as $val){ if(preg_match('/.txt/i', $val)) $llista .= "\"".basename($val, '.txt')."\","; } //emplena la llista d'elements a mostrar
 	$llista .= "\"\""; //afageix un element buit per l'última coma
-
+*/
 $sql = "
 	SELECT D.document_id, D.date_taken, D.title, D.latitude, D.longitude, C.event_type
 	FROM gdsa_datainfo D JOIN gdsa_classified C 
 	ON D.document_id = 	C.document_id 
-	WHERE D.document_id IN(".$llista.");";
+	WHERE D.document_id like '%".$dirn."';";
+	$i = 0;
+	$i2 = 0;
 if($resultat = $mysqli->query($sql)){
 	while($fila = $resultat->fetch_assoc()){
+		$i++;
 		tags($fila["document_id"],$mysqli);
 		$coord = (!empty($fila["latitude"]) and !empty($fila["longitude"])) ? "".$fila["latitude"] . " " . $fila["longitude"] : "";
-		$text = "\"" .$fila["title"] . " " . $tags . " " .$coord. " " .$fila["date_taken"] . "\"";
+		$text = "" .$mysqli->real_escape_string($fila["title"]). " " . $mysqli->real_escape_string($tags). " " .$mysqli->real_escape_string($coord)." " .$fila["date_taken"] . "";
 		
 		$sql = "
-		SELECT classe, MATCH (titol,etiquetes,coord,captura)  AGAINST (".$text." IN BOOLEAN MODE) as score FROM gdsa_dades ORDER BY score DESC LIMIT ".intval($knn).";
+		SELECT classe, MATCH (titol,etiquetes,coord,captura)  AGAINST (\"".clean($text)."\" IN BOOLEAN MODE) as score FROM gdsa_dades ORDER BY score DESC LIMIT ".$knn.";
 		";
 		if($resultat2 = $mysqli->query($sql)){
+			$i2++;
 		$score = array("concert"=>0,"conference"=>0,"exhibition"=>0,"fashion"=>0,"other"=>0,"protest"=>0,"sports"=>0,"theater_dance"=>0,"non_event"=>0 );
 			while($fila2 = $resultat2->fetch_assoc()){
 				$score[trim($fila2["classe"])]++;
 			}
 			$insert[] = '("'.$fila["document_id"].'","'.trim(array_search(max($score),$score)).'","'.trim($fila["event_type"]).'")';
 		}
+		else $err = true;
 	}
-} echo "Dades analitzades.<br><br>";
+} echo "Dades analitzades ($i2/$i)"; if(isset($err)){echo "Algunes dades no s'han processat :(";} echo "<br><br>";
 
 if($mysqli->query("TRUNCATE TABLE gdsa_confmat")){
 $query = 'INSERT INTO gdsa_confmat (document, etiqueta, categoria) VALUES '.implode(',', $insert);
 if($mysqli->query($query)) echo "Matriu de confusió creada correctament:<br><br>"; else echo "NO s'ha pogut crear la matriu de confusió.";
+
+$sql = 'SELECT document, etiqueta FROM gdsa_confmat';
+if($resultat = $mysqli->query($sql)){
+	$file = 'classif_mysql'.$dirn.'_'.$knn.'.txt';
+	unlink($file);
+	$file = fopen($file,'w');
+	$val = "";
+	while($fila = $resultat->fetch_assoc()) {
+		$val .= $fila["document"]." ".$fila["etiqueta"]."\n";
+	}
+	fwrite($file,$val);
+	fclose($file);
+}
 
 for($i = 0; $i < 9; $i++){
 	for($j=0; $j < 9; $j++){
