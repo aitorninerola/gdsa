@@ -1,15 +1,15 @@
-<?php if(!isset($_POST["executa"])) header("Location: index.php"); ?>
+<?php if(!isset($_POST["executa"])) header("Location: sed.php"); ?>
 <?php
 session_start();
 $_SESSION['dir']=$_REQUEST['train'];
 
 $tic = time();
 
-$dir = ($_SESSION['dir'] == 1) ? "/img/train-1/" : "/img/train-2/";
+$dir = ($_SESSION['dir'] == 1) ? "1" : "2";
 
 global $tags;
 require('connexio.php');
-
+/*
 $dir1 = getcwd().$dir;
 $img1 = scandir($dir1);
 $list = "";
@@ -20,11 +20,11 @@ foreach($img1 as $val){
 }
 
 $list .= "\"\"";
-
+*/
 $sql = "SELECT D.document_id, D.date_taken, D.title, D.latitude, D.longitude, C.event_type 
 FROM gdsa_datainfo D join gdsa_classified C 
 ON C.document_id = D.document_id
-AND D.document_id IN(".$list.");";
+WHERE D.document_id like '%".$dir."';";
 if($resultat = $mysqli->query($sql)){
 	while($fila = $resultat->fetch_assoc()){
 		$sql = "SELECT tag FROM gdsa_tags WHERE document_id =\"".$fila["document_id"]."\";";
