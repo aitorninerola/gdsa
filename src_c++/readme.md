@@ -1,1 +1,1 @@
-Codi del classificador textual
+Source code of textual classifier and evaluator
