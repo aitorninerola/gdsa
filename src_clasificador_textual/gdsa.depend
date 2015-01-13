@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1386245192 source:d:\dropbox\universitat\3r curs\gdsa\projecte\c++\gdsa\src\connexioodbc.cpp
+	<sstream>
+	"..\include\ConnexioODBC.h"
+
+1386243872 d:\dropbox\universitat\3r curs\gdsa\projecte\c++\gdsa\include\connexioodbc.h
+	<windows.h>
+	<iostream>
+	<sql.h>
+	<sqlext.h>
+
+1386245192 source:d:\dropbox\universitat\3r curs\gdsa\projecte\c++\gdsa\src\sentenciaodbc.cpp
+	"..\include\SentenciaODBC.h"
+
+1386243996 d:\dropbox\universitat\3r curs\gdsa\projecte\c++\gdsa\include\sentenciaodbc.h
+	"ConnexioODBC.h"
+
+1421058556 source:d:\dropbox\universitat\3r curs\gdsa\projecte\c++\gdsa\avaluador.cpp
+	<iostream>
+	<iomanip>
+	<sstream>
+	<fstream>
+	<ctime>
+	<stdio.h>
+	"include\ConnexioODBC.h"
+	"include\SentenciaODBC.h"
+	<map>
+

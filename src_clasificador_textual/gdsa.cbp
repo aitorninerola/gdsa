@@ -35,9 +35,9 @@
 			<Add library="C:\Program Files (x86)\CodeBlocks\MinGW\lib\libodbc32.a" />
 			<Add library="C:\Program Files (x86)\CodeBlocks\MinGW\lib\libodbccp32.a" />
 		</Linker>
+		<Unit filename="classificador_textual.cpp" />
 		<Unit filename="include/ConnexioODBC.h" />
 		<Unit filename="include/SentenciaODBC.h" />
-		<Unit filename="main.cpp" />
 		<Unit filename="src/ConnexioODBC.cpp" />
 		<Unit filename="src/SentenciaODBC.cpp" />
 		<Extensions>
