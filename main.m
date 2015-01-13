@@ -1,4 +1,4 @@
-% Copyright 2015 Aitor Niñerola, Eduardo Bernal, Luís Varas, Mohamed el Bouchti
+% Copyright 2015 Aitor NiÃ±erola, Eduardo Bernal, LuÃ­s Varas, Mohamed el Bouchti
 % 
 % 
 %     This file is part of SocialEventDetector
@@ -43,7 +43,7 @@ disp('Running textual classifier...');
 !clasificador_textual.exe
 disp('Textual classification succsessful. Results at results_textual.txt');
 toc;
-error('STOP');
+
 %% Load visual testset
 if ~exist(conf.testf,'file')
     tic;
