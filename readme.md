@@ -1,5 +1,10 @@
 Copyright 2015 Aitor Niñerola, Eduardo Bernal, Luís Varas, Mohamed el Bouchti
 
+   [Aitor]: aitor.ninerola [@] estudiant (dot) upc (dot) edu
+   [Edu]: eduardo.bernal [@] estuiant (dot) upc (dot) edu
+   [Lu�s]: luisvarasg17 [@] gmail (dot) com
+   [Moha]: el.bouchti.moha [@] gmail (dot) com
+
 
     This file is part of SocialEventDetector
 
